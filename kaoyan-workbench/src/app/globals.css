@@ -7,12 +7,14 @@
 /* ============================================================
    简约高级主题
    浅色中性底 + 单一强调色（indigo）+ 统一 zinc 灰阶
-   字体：Geist（拉丁）+ 雅黑（中文），数字 tabular-nums
+   字体：苹果风格——Inter（SF Pro 替代）+ 普惠体（类苹方中文）
    ============================================================ */
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter), var(--font-puhuiti), "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", "JetBrains Mono",
+    Consolas, monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-sidebar-ring: var(--sidebar-ring);
