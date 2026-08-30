@@ -55,7 +55,7 @@ export function CheckInCard({
   }
 
   return (
-    <Card>
+    <Card className="ak-corner border-border bg-card">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="flex items-center gap-2 text-base">
           <Flame className="size-4 text-primary" />

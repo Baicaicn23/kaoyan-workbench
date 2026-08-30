@@ -35,40 +35,53 @@ export type SubjectOption = { id: number; name: string; color: string };
 export function TodayTasks({
   tasks,
   subjects,
+  title = "任务",
+  code,
+  lockSubjectId,
+  accentColor,
 }: {
   tasks: TodayTask[];
   subjects: SubjectOption[];
+  title?: string;
+  code?: string;
+  /** 锁定模块：添加任务固定该模块，隐藏模块选择器（模块页用） */
+  lockSubjectId?: number;
+  accentColor?: string;
 }) {
   const router = useRouter();
-  const [title, setTitle] = useState("");
-  const [subjectId, setSubjectId] = useState<string>("");
+  const [titleInput, setTitleInput] = useState("");
+  const [subjectId, setSubjectId] = useState<string>(
+    lockSubjectId ? String(lockSubjectId) : "",
+  );
 
   async function submit(formData: FormData) {
     await createTask(formData);
-    setTitle("");
-    setSubjectId("");
+    setTitleInput("");
     router.refresh();
   }
 
   const doneCount = tasks.filter((t) => t.status === "done").length;
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+    <Card className="ak-corner border-border bg-card">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 border-b border-border pb-3">
         <CardTitle className="flex items-center gap-2 text-base">
-          <ListTodo className="size-4 text-primary" />
-          今日任务
+          <ListTodo className="size-4" style={{ color: accentColor ?? "var(--primary)" }} />
+          <span className="ak-title">{title}</span>
+          {code && (
+            <span className="ak-label !text-[0.5625rem] opacity-60">{code}</span>
+          )}
         </CardTitle>
-        <span className="text-xs text-muted-foreground">
+        <span className="text-xs tabular-nums text-muted-foreground">
           {doneCount}/{tasks.length} 完成
         </span>
       </CardHeader>
-      <CardContent className="space-y-3">
-        <ul className="space-y-1.5">
+      <CardContent className="space-y-3 pt-4">
+        <ul className="space-y-1">
           {tasks.map((t) => (
             <li
               key={t.id}
-              className="group flex items-center gap-2.5 rounded-md px-2 py-1.5 hover:bg-muted/60"
+              className="group flex items-center gap-2.5 border-l-2 border-transparent px-2 py-1.5 hover:border-primary/60 hover:bg-muted/60"
             >
               <button
                 type="button"
@@ -120,37 +133,39 @@ export function TodayTasks({
             </li>
           ))}
           {tasks.length === 0 && (
-            <li className="px-2 py-4 text-center text-sm text-muted-foreground">
-              今天还没有任务，添加一个吧
+            <li className="px-2 py-5 text-center text-sm text-muted-foreground">
+              暂无任务，添加一项开始行动
             </li>
           )}
         </ul>
 
-        <form action={submit} className="flex gap-2 border-t pt-3">
+        <form action={submit} className="flex gap-2 border-t border-border pt-3">
           <Input
             name="title"
             placeholder="添加任务…"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={titleInput}
+            onChange={(e) => setTitleInput(e.target.value)}
             className="flex-1"
           />
-          <Select value={subjectId} onValueChange={(v) => setSubjectId(v ?? "")}>
-            <SelectTrigger className="w-28" aria-label="科目">
-              <SelectValue placeholder="科目" />
-            </SelectTrigger>
-            <SelectContent>
-              {subjects.map((s) => (
-                <SelectItem key={s.id} value={String(s.id)}>
-                  {s.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {!lockSubjectId && (
+            <Select value={subjectId} onValueChange={(v) => setSubjectId(v ?? "")}>
+              <SelectTrigger className="w-28" aria-label="模块">
+                <SelectValue placeholder="模块" />
+              </SelectTrigger>
+              <SelectContent>
+                {subjects.map((s) => (
+                  <SelectItem key={s.id} value={String(s.id)}>
+                    {s.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
           <input type="hidden" name="subjectId" value={subjectId} />
           <Button
             type="submit"
             size="icon"
-            disabled={!title.trim()}
+            disabled={!titleInput.trim()}
             aria-label="添加"
           >
             <Plus className="size-4" />

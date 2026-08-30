@@ -6,6 +6,7 @@ import { CountdownCard } from "@/components/dashboard/countdown";
 import { TodayTasks } from "@/components/dashboard/today-tasks";
 import { CheckInCard } from "@/components/dashboard/check-in";
 import { Heatmap } from "@/components/dashboard/heatmap";
+import { SubjectSummary } from "@/components/dashboard/subject-summary";
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +18,7 @@ export default async function DashboardPage() {
       prisma.task.findMany({
         where: { date: today },
         orderBy: [{ startTime: "asc" }, { id: "asc" }],
-        include: { subject: { select: { name: true, color: true } } },
+        include: { subject: { select: { id: true, name: true, color: true } } },
       }),
       prisma.subject.findMany({ orderBy: { sortOrder: "asc" } }),
       prisma.checkIn.findUnique({ where: { date: today } }),
@@ -57,15 +58,18 @@ export default async function DashboardPage() {
 
   const sessionMinutes = sessions.reduce((a, s) => a + s.durationMin, 0);
   const examDate = examSetting?.value ?? "2026-12-26";
+  const totalMinutes = sessionMinutes + (checkin?.durationMin ?? 0);
 
   return (
     <div className="p-8">
       <PageHeader
-        title="今日看板"
-        description={`${format(new Date(), "M月d日 EEEE")} · 稳住节奏，一战成硕`}
+        title="今日总结"
+        code="DAILY REPORT"
+        description={`${format(new Date(), "yyyy年M月d日 EEEE")} · 看看今天学了什么`}
       />
 
-      <div className="grid gap-4 lg:grid-cols-3">
+      {/* 战况总览：倒计时 + 打卡 */}
+      <div className="grid gap-4 lg:grid-cols-2">
         <CountdownCard examDate={examDate} />
         <CheckInCard
           totalMinutes={sessionMinutes}
@@ -74,13 +78,26 @@ export default async function DashboardPage() {
           note={checkin?.note ?? null}
           date={today}
         />
-        <div className="lg:col-span-3">
-          <Heatmap data={heatData.data} totalMinutes={heatData.totalMinutes} />
-        </div>
       </div>
 
+      {/* 各模块今日完成情况 */}
       <div className="mt-4">
-        <TodayTasks tasks={tasks} subjects={subjects} />
+        <SubjectSummary subjects={subjects} tasks={tasks} totalMinutes={totalMinutes} />
+      </div>
+
+      {/* 今日任务明细 */}
+      <div className="mt-4">
+        <TodayTasks
+          tasks={tasks}
+          subjects={subjects}
+          title="今日任务"
+          code="TASKS"
+        />
+      </div>
+
+      {/* 热力图 */}
+      <div className="mt-4">
+        <Heatmap data={heatData.data} totalMinutes={heatData.totalMinutes} />
       </div>
     </div>
   );

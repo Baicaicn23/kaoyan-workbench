@@ -5,12 +5,13 @@ export default function StatsPage() {
   return (
     <div className="p-8">
       <PageHeader
-        title="统计"
-        description="打卡热力图、专注时长趋势、各科分布"
+        title="数据统计"
+        code="STATISTICS"
+        description="打卡热力图、专注时长趋势、模块分布"
       />
-      <Card>
+      <Card className="ak-corner border-border bg-card">
         <CardContent className="p-6 text-sm text-muted-foreground">
-          M5 里程碑：热力图 + 趋势 + 科目分布
+          开发中：热力图完整视图 + 时长趋势 + 模块分布
         </CardContent>
       </Card>
     </div>

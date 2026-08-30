@@ -8,20 +8,24 @@ const adapter = new PrismaBetterSqlite3({
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
+  // 三个模块：高数 / 英语六级 / 秋招准备（清空重建，本地单用户无存量数据）
   const subjects = [
-    { name: "数学", color: "#6366f1", sortOrder: 0 },
-    { name: "英语", color: "#10b981", sortOrder: 1 },
-    { name: "政治", color: "#f59e0b", sortOrder: 2 },
-    { name: "专业课", color: "#ef4444", sortOrder: 3 },
+    { name: "高数", color: "#4aabea", sortOrder: 0 }, // 方舟主蓝
+    { name: "英语六级", color: "#46c47c", sortOrder: 1 }, // 方舟信号绿
+    { name: "秋招准备", color: "#f1c644", sortOrder: 2 }, // 方舟信号金
   ];
-  for (const s of subjects) {
-    const exists = await prisma.subject.findFirst({ where: { name: s.name } });
-    if (!exists) {
+
+  const existing = await prisma.subject.count();
+  if (existing === 0) {
+    for (const s of subjects) {
       await prisma.subject.create({ data: s });
     }
+    console.log("seed 完成：3 个模块（高数 / 英语六级 / 秋招准备）");
+  } else {
+    console.log("已存在科目数据，跳过（如要重置请先清空 Subject/Task 表）");
   }
 
-  // 默认考试日期（可在看板倒计时卡片修改）
+  // 默认考试日期（可在今日总结页修改）
   const examDate = await prisma.setting.findUnique({ where: { key: "exam_date" } });
   if (!examDate) {
     await prisma.setting.create({ data: { key: "exam_date", value: "2026-12-26" } });
@@ -29,7 +33,7 @@ async function main() {
 }
 
 main()
-  .then(() => console.log("seed 完成：4 个默认科目"))
+  .then(() => console.log("seed 完成"))
   .catch((e) => {
     console.error(e);
     process.exit(1);
