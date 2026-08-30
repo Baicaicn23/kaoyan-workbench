@@ -1,0 +1,86 @@
+// 考研工作台数据模型（详见根目录 PLAN.md）
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// 科目：数学 / 英语 / 政治 / 专业课
+model Subject {
+  id        Int     @id @default(autoincrement())
+  name      String
+  color     String  @default("#6366f1")
+  sortOrder Int     @default(0)
+  tasks     Task[]
+  wrongQs   WrongQuestion[]
+}
+
+// 任务：看板 / 周计划 / 月计划共用
+model Task {
+  id         Int            @id @default(autoincrement())
+  title      String
+  date       String // YYYY-MM-DD
+  startTime  String? // HH:mm
+  endTime    String?
+  subjectId  Int?
+  subject    Subject?       @relation(fields: [subjectId], references: [id])
+  repeatRule String? // JSON: { type: "daily" | "weekly" | "none", ... }
+  note       String?
+  status     String         @default("todo") // todo | done
+  createdAt  DateTime       @default(now())
+  sessions   FocusSession[]
+}
+
+// 专注记录：番茄钟 / 自定义专注
+model FocusSession {
+  id          Int      @id @default(autoincrement())
+  taskId      Int?
+  task        Task?    @relation(fields: [taskId], references: [id])
+  subjectId   Int?
+  startAt     DateTime
+  endAt       DateTime
+  durationMin Int
+  type        String   @default("pomodoro") // pomodoro | custom
+  completed   Boolean  @default(true)
+}
+
+// 打卡：每日一条，时长由专注记录汇总 + 手动补记
+model CheckIn {
+  id          Int     @id @default(autoincrement())
+  date        String  @unique // YYYY-MM-DD
+  durationMin Int     @default(0) // 手动补记的时长
+  mood        String?
+  note        String?
+}
+
+// 错题
+model WrongQuestion {
+  id           Int          @id @default(autoincrement())
+  subjectId    Int?
+  subject      Subject?     @relation(fields: [subjectId], references: [id])
+  source       String? // 题目来源：教材/真题/模拟卷...
+  question     String // markdown
+  answer       String?
+  analysis     String?
+  wrongReason  String?
+  tags         String       @default("[]") // JSON 字符串数组
+  reviewState  String       @default("learning") // learning | reviewing | mastered
+  nextReviewAt DateTime?
+  reviewCount  Int          @default(0)
+  fsrsState    String? // JSON: FSRS 卡状态快照
+  createdAt    DateTime     @default(now())
+  logs         ReviewLog[]
+}
+
+// 复习日志
+model ReviewLog {
+  id              Int           @id @default(autoincrement())
+  wrongQuestionId Int
+  wrongQuestion   WrongQuestion @relation(fields: [wrongQuestionId], references: [id])
+  reviewedAt      DateTime      @default(now())
+  grade           Int // 0-5，喂给 FSRS
+}
