@@ -23,7 +23,7 @@ if (Get-NetTCPConnection -State Listen -LocalPort $port -ErrorAction SilentlyCon
 Start-Process pwsh -ArgumentList @(
     "-NoProfile", "-ExecutionPolicy", "Bypass",
     "-File", (Join-Path $scriptDir "dev-server.ps1")
-)
+) -WindowStyle Hidden
 
 # 轮询等待端口就绪（最多 90 秒）
 Write-Host "正在启动 dev server…" -ForegroundColor Yellow
@@ -33,6 +33,9 @@ for ($i = 0; $i -lt 90; $i++) {
         Start-Sleep -Seconds 2
         Start-Process $url
         Write-Host "启动完成，已打开 $url" -ForegroundColor Green
+        Write-Host "dev server 在后台静默运行，无窗口。" -ForegroundColor DarkGray
+        Write-Host "停止：双击桌面「停止考研工作台」，或运行 stop-dev.ps1" -ForegroundColor DarkGray
+        Write-Host "日志：kaoyan-workbench/logs/dev.log" -ForegroundColor DarkGray
         exit 0
     }
 }
