@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 
-const MOODS = ["🔥", "😊", "😌", "😴", "😫"];
+const MOODS = ["状态极佳", "不错", "一般", "有些疲惫", "很低迷"];
 
 function formatMinutes(min: number) {
   if (min < 60) return `${min} 分钟`;
@@ -55,7 +55,7 @@ export function CheckInCard({
   }
 
   return (
-    <Card className="ak-corner border-border bg-card">
+    <Card className="border-border bg-card">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="flex items-center gap-2 text-base">
           <Flame className="size-4 text-primary" />
@@ -76,17 +76,17 @@ export function CheckInCard({
           <input type="hidden" name="note" value={noteState} />
           <div className="flex items-center gap-2">
             <span className="text-sm text-muted-foreground">心情</span>
-            <div className="flex gap-1">
+            <div className="flex flex-wrap gap-1">
               {MOODS.map((m) => (
                 <button
                   key={m}
                   type="button"
                   onClick={() => setMoodState(m)}
                   className={cn(
-                    "rounded-md px-2 py-1 text-lg transition-colors",
+                    "rounded-md px-2 py-1 text-sm transition-colors",
                     moodState === m
-                      ? "bg-primary/15 ring-1 ring-primary"
-                      : "hover:bg-muted",
+                      ? "bg-primary/10 font-medium text-primary ring-1 ring-primary/30"
+                      : "text-muted-foreground hover:bg-muted",
                   )}
                   aria-label={`心情 ${m}`}
                 >

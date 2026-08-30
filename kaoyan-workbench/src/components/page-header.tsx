@@ -8,15 +8,16 @@ export function PageHeader({
   description?: string;
 }) {
   return (
-    <div className="mb-6">
-      <div className="flex items-center gap-3">
-        {code && <span className="ak-label">{code}</span>}
-        <h1 className="ak-title text-3xl text-foreground">{title}</h1>
-      </div>
+    <div className="mb-8">
+      {code && (
+        <p className="mb-1.5 text-[0.6875rem] font-medium uppercase tracking-widest text-muted-foreground/70">
+          {code}
+        </p>
+      )}
+      <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
       {description && (
         <p className="mt-1.5 text-sm text-muted-foreground">{description}</p>
       )}
-      <div className="ak-stripe mt-4 h-1 w-full opacity-70" />
     </div>
   );
 }

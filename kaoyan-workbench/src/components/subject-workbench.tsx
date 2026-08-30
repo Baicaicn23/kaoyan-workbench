@@ -35,24 +35,24 @@ export function SubjectWorkbench({
 
       {/* 模块战况 */}
       <div className="grid gap-4 sm:grid-cols-3">
-        <Card className="ak-corner border-border bg-card">
+        <Card className="border-border bg-card">
           <CardContent className="p-4">
-            <p className="ak-label !text-[0.5625rem] opacity-70">TOTAL</p>
-            <p className="ak-number mt-1 text-3xl">{totalCount}</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">TOTAL</p>
+            <p className="text-3xl font-semibold tabular-nums tracking-tight">{totalCount}</p>
             <p className="text-xs text-muted-foreground">任务总数</p>
           </CardContent>
         </Card>
-        <Card className="ak-corner border-border bg-card">
+        <Card className="border-border bg-card">
           <CardContent className="p-4">
-            <p className="ak-label !text-[0.5625rem] opacity-70">DONE</p>
-            <p className="ak-number mt-1 text-3xl">{doneCount}</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">DONE</p>
+            <p className="text-3xl font-semibold tabular-nums tracking-tight">{doneCount}</p>
             <p className="text-xs text-muted-foreground">已完成</p>
           </CardContent>
         </Card>
-        <Card className="ak-corner border-border bg-card">
+        <Card className="border-border bg-card">
           <CardContent className="p-4">
-            <p className="ak-label !text-[0.5625rem] opacity-70">PROGRESS</p>
-            <p className="ak-number mt-1 text-3xl">{pct}%</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">PROGRESS</p>
+            <p className="text-3xl font-semibold tabular-nums tracking-tight">{pct}%</p>
             <div className="mt-2 h-1 w-full bg-muted">
               <div
                 className="h-full transition-all"

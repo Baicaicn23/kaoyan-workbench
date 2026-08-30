@@ -45,7 +45,7 @@ export function SubjectSummary({
           <Card
             key={s.id}
             className={cn(
-              "ak-corner overflow-hidden border-border bg-card transition-colors hover:border-primary/50",
+              "overflow-hidden border-border bg-card card-interactive transition-colors hover:border-primary/50",
               href && "cursor-pointer",
             )}
           >
@@ -67,15 +67,15 @@ export function SubjectSummary({
                     className="size-2.5"
                     style={{ backgroundColor: s.color }}
                   />
-                  <span className="ak-title text-base">{s.name}</span>
+                  <span className="text-base font-semibold">{s.name}</span>
                 </span>
-                <span className="ak-label !text-[0.5625rem] opacity-60">
+                <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   {code}
                 </span>
               </div>
               <div className="mt-3 flex items-end justify-between">
                 <div>
-                  <span className="ak-number text-3xl">{done}</span>
+                  <span className="text-3xl font-semibold tabular-nums tracking-tight">{done}</span>
                   <span className="ml-1 text-sm text-muted-foreground">
                     / {moduleTasks.length} 完成
                   </span>

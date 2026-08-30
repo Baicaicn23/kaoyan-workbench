@@ -10,9 +10,9 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
   // 三个模块：高数 / 英语六级 / 秋招准备（清空重建，本地单用户无存量数据）
   const subjects = [
-    { name: "高数", color: "#4aabea", sortOrder: 0 }, // 方舟主蓝
-    { name: "英语六级", color: "#46c47c", sortOrder: 1 }, // 方舟信号绿
-    { name: "秋招准备", color: "#f1c644", sortOrder: 2 }, // 方舟信号金
+    { name: "高数", color: "#4f46e5", sortOrder: 0 }, // indigo
+    { name: "英语六级", color: "#059669", sortOrder: 1 }, // emerald
+    { name: "秋招准备", color: "#d97706", sortOrder: 2 }, // amber
   ];
 
   const existing = await prisma.subject.count();

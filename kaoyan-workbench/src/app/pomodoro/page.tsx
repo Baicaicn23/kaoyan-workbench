@@ -9,7 +9,7 @@ export default function PomodoroPage() {
         code="FOCUS MODE"
         description="番茄工作法 · 专注时长自动计入每日总结"
       />
-      <Card className="ak-corner border-border bg-card">
+      <Card className="border-border bg-card">
         <CardContent className="p-6 text-sm text-muted-foreground">
           开发中：反漂移番茄钟 + 专注记录（下个里程碑）
         </CardContent>

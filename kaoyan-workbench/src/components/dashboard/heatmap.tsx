@@ -14,7 +14,7 @@ const GAP = 3;
 const WEEKS = 20;
 
 function level(minutes: number): string {
-  if (minutes <= 0) return "fill-muted-foreground/10";
+  if (minutes <= 0) return "fill-zinc-200";
   if (minutes < 30) return "fill-primary/25";
   if (minutes < 60) return "fill-primary/45";
   if (minutes < 120) return "fill-primary/70";
@@ -22,7 +22,7 @@ function level(minutes: number): string {
 }
 
 const LEVELS = [
-  "bg-muted-foreground/10",
+  "bg-zinc-200",
   "bg-primary/25",
   "bg-primary/45",
   "bg-primary/70",
@@ -58,7 +58,7 @@ export function Heatmap({
   const cols = Math.ceil(dayCount / 7);
 
   return (
-    <Card className="ak-corner border-border bg-card">
+    <Card className="border-border bg-card">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="flex items-center gap-2 text-base">
           <Flame className="size-4 text-primary" />

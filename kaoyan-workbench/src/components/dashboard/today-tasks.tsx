@@ -63,13 +63,13 @@ export function TodayTasks({
   const doneCount = tasks.filter((t) => t.status === "done").length;
 
   return (
-    <Card className="ak-corner border-border bg-card">
+    <Card className="border-border bg-card">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 border-b border-border pb-3">
         <CardTitle className="flex items-center gap-2 text-base">
           <ListTodo className="size-4" style={{ color: accentColor ?? "var(--primary)" }} />
-          <span className="ak-title">{title}</span>
+          <span className="font-semibold">{title}</span>
           {code && (
-            <span className="ak-label !text-[0.5625rem] opacity-60">{code}</span>
+            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{code}</span>
           )}
         </CardTitle>
         <span className="text-xs tabular-nums text-muted-foreground">

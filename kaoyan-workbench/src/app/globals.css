@@ -5,18 +5,16 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ============================================================
-   明日方舟风格主题（设计令牌参考 YunYouJun/ak-ui）
-   色板：画布 #111315 / 面板 #17191b / 主蓝 #4aabea / 信号金 #f1c644
-   几何：2px 圆角 + 斜切角（clip-path）+ L 形角标
-   字体：宋体标题（命令感）+ 雅黑正文
+   简约高级主题
+   浅色中性底 + 单一强调色（indigo）+ 统一 zinc 灰阶
+   字体：Geist（拉丁）+ 雅黑（中文），数字 tabular-nums
    ============================================================ */
 
 @theme inline {
-  --font-sans: var(--font-ark-sans);
-  --font-heading: var(--font-ark-serif);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-mono: var(--font-ark-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -46,62 +44,58 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: calc(var(--radius) - 1px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 10px);
+  --radius-3xl: calc(var(--radius) + 16px);
+  --radius-4xl: calc(var(--radius) + 22px);
 }
 
 :root {
-  --font-ark-sans: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif;
-  --font-ark-serif: "STZhongsong", "SimSun", "Songti SC", "Noto Serif SC", serif;
-  --font-ark-mono: "Cascadia Mono", Consolas, monospace;
+  /* 中性表面：zinc 灰阶，单一冷调 */
+  --background: #fafafa;
+  --foreground: #18181b;
+  --card: #ffffff;
+  --card-foreground: #18181b;
+  --popover: #ffffff;
+  --popover-foreground: #18181b;
 
-  /* 基础表面 */
-  --background: #111315; /* 作战画布 */
-  --foreground: #f8f8f5; /* 暖白 */
-  --card: #17191b;
-  --card-foreground: #f8f8f5;
-  --popover: #1c1e21;
-  --popover-foreground: #f8f8f5;
-
-  /* 信号色 */
-  --primary: #4aabea; /* 方舟主蓝 */
-  --primary-foreground: #111315;
-  --secondary: #26282b;
-  --secondary-foreground: #f8f8f5;
-  --muted: #1e2023;
-  --muted-foreground: rgba(248, 248, 245, 0.62);
-  --accent: #f1c644; /* 方舟信号金 */
-  --accent-foreground: #111315;
-  --destructive: #e33b3b;
-  --success: #46c47c;
+  /* 唯一强调色：indigo */
+  --primary: #4f46e5;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
+  --destructive: #dc2626;
+  --success: #059669;
 
   /* 边框与聚焦 */
-  --border: rgba(248, 248, 245, 0.14);
-  --input: rgba(248, 248, 245, 0.18);
-  --ring: rgba(241, 198, 68, 0.55);
-  --radius: 2px; /* 方舟：近乎直角 */
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: rgba(79, 70, 229, 0.4);
+  --radius: 0.5rem;
 
   /* 图表 */
-  --chart-1: #4aabea;
-  --chart-2: #f1c644;
-  --chart-3: #46c47c;
-  --chart-4: #e33b3b;
-  --chart-5: #3ff7ff;
+  --chart-1: #4f46e5;
+  --chart-2: #059669;
+  --chart-3: #d97706;
+  --chart-4: #e11d48;
+  --chart-5: #0891b2;
 
   /* 侧栏 */
-  --sidebar: #0d0f10;
-  --sidebar-foreground: #f8f8f5;
-  --sidebar-primary: #4aabea;
-  --sidebar-primary-foreground: #111315;
-  --sidebar-accent: rgba(74, 171, 234, 0.14);
-  --sidebar-accent-foreground: #8fd0f8;
-  --sidebar-border: rgba(248, 248, 245, 0.12);
-  --sidebar-ring: rgba(241, 198, 68, 0.5);
+  --sidebar: #ffffff;
+  --sidebar-foreground: #18181b;
+  --sidebar-primary: #4f46e5;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f4f4f5;
+  --sidebar-accent-foreground: #18181b;
+  --sidebar-border: #e4e4e7;
+  --sidebar-ring: rgba(79, 70, 229, 0.4);
 }
 
 @layer base {
@@ -109,105 +103,24 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground font-sans;
-    /* 战术网格纹理背景 */
-    background-image:
-      linear-gradient(rgba(248, 248, 245, 0.022) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(248, 248, 245, 0.022) 1px, transparent 1px);
-    background-size: 36px 36px;
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  /* 数据类数字统一等宽数字 */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
   }
 }
 
 @layer components {
-  /* ---- 方舟工具类 ---- */
-
-  /* 斜切角（左上 + 右下对切） */
-  .ak-cut {
-    clip-path: polygon(
-      0.75rem 0,
-      100% 0,
-      100% calc(100% - 0.75rem),
-      calc(100% - 0.75rem) 100%,
-      0 100%
-    );
+  /* 卡片微交互：轻量悬浮 + 按压反馈 */
+  .card-interactive {
+    @apply transition-all duration-200;
   }
-  .ak-cut-sm {
-    clip-path: polygon(
-      0.375rem 0,
-      100% 0,
-      100% calc(100% - 0.375rem),
-      calc(100% - 0.375rem) 100%,
-      0 100%
-    );
+  .card-interactive:hover {
+    box-shadow: 0 1px 2px rgba(24, 24, 27, 0.04),
+      0 4px 12px rgba(24, 24, 27, 0.06);
   }
-  /* 右上 + 左下对切（反向） */
-  .ak-cut-rev {
-    clip-path: polygon(
-      0 0,
-      calc(100% - 0.75rem) 0,
-      100% 0.75rem,
-      100% 100%,
-      0.75rem 100%,
-      0 calc(100% - 0.75rem)
-    );
-  }
-
-  /* L 形角标面板：左上金 + 右下蓝 */
-  .ak-corner {
-    position: relative;
-  }
-  .ak-corner::before,
-  .ak-corner::after {
-    content: "";
-    position: absolute;
-    width: 0.9rem;
-    height: 0.9rem;
-    pointer-events: none;
-  }
-  .ak-corner::before {
-    top: -1px;
-    left: -1px;
-    border-top: 2px solid #f1c644;
-    border-left: 2px solid #f1c644;
-  }
-  .ak-corner::after {
-    bottom: -1px;
-    right: -1px;
-    border-bottom: 2px solid #4aabea;
-    border-right: 2px solid #4aabea;
-  }
-
-  /* 警示斜条纹条（方舟式分隔/强调条） */
-  .ak-stripe {
-    background: repeating-linear-gradient(
-      -45deg,
-      rgba(241, 198, 68, 0.92) 0,
-      rgba(241, 198, 68, 0.92) 10px,
-      rgba(17, 19, 21, 0.95) 10px,
-      rgba(17, 19, 21, 0.95) 20px
-    );
-  }
-
-  /* 宽字距小标签 */
-  .ak-label {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #4aabea;
-  }
-
-  /* 宋体标题 */
-  .ak-title {
-    font-family: var(--font-ark-serif);
-    font-weight: 700;
-    letter-spacing: 0.02em;
-  }
-
-  /* 金色高亮数值 */
-  .ak-number {
-    font-family: var(--font-ark-mono);
-    font-weight: 700;
-    color: #f1c644;
+  .card-interactive:active {
+    transform: scale(0.99);
   }
 }
