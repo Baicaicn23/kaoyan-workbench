@@ -12,20 +12,29 @@ export async function createTask(formData: FormData) {
   const subjectId = Number(formData.get("subjectId")) || null;
   if (!title) return;
   await prisma.task.create({ data: { title, date, subjectId } });
-  revalidatePath("/");
-  revalidatePath("/plan");
+  revalidatePath("/", "layout");
 }
 
 export async function toggleTask(id: number, done: boolean) {
   await prisma.task.update({ where: { id }, data: { status: done ? "done" : "todo" } });
-  revalidatePath("/");
-  revalidatePath("/plan");
+  revalidatePath("/", "layout");
 }
 
 export async function deleteTask(id: number) {
   await prisma.task.delete({ where: { id } });
-  revalidatePath("/");
-  revalidatePath("/plan");
+  revalidatePath("/", "layout");
+}
+
+// ---------- 任务模板 ----------
+
+/** 从模板一键加入今日任务 */
+export async function addTemplateTask(title: string, subjectId: number) {
+  const t = title.trim();
+  if (!t) return;
+  await prisma.task.create({
+    data: { title: t, date: todayStr(), subjectId: subjectId || null },
+  });
+  revalidatePath("/", "layout");
 }
 
 // ---------- 打卡 ----------
