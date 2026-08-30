@@ -85,9 +85,7 @@ export function Heatmap({
               rx={2}
               className={level(day.minutes)}
             >
-              <title>
-                {format(parseISO(day.date), "M月d日")}：{day.minutes} 分钟
-              </title>
+              <title>{`${format(parseISO(day.date), "M月d日")}：${day.minutes} 分钟`}</title>
             </rect>
           ))}
         </svg>
