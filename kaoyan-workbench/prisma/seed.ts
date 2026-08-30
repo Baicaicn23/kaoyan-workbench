@@ -20,6 +20,12 @@ async function main() {
       await prisma.subject.create({ data: s });
     }
   }
+
+  // 默认考试日期（可在看板倒计时卡片修改）
+  const examDate = await prisma.setting.findUnique({ where: { key: "exam_date" } });
+  if (!examDate) {
+    await prisma.setting.create({ data: { key: "exam_date", value: "2026-12-26" } });
+  }
 }
 
 main()

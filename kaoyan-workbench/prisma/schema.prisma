@@ -19,6 +19,12 @@ model Subject {
   wrongQs   WrongQuestion[]
 }
 
+// 键值配置：考试日期、番茄钟时长等
+model Setting {
+  key   String @id
+  value String
+}
+
 // 任务：看板 / 周计划 / 月计划共用
 model Task {
   id         Int            @id @default(autoincrement())
