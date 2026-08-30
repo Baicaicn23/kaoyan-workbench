@@ -48,3 +48,4 @@ prisma/dev.db-journal
 
 # Dev logs
 logs/
+.heartbeat

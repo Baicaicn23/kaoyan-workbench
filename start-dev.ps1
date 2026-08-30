@@ -25,6 +25,15 @@ Start-Process pwsh -ArgumentList @(
     "-File", (Join-Path $scriptDir "dev-server.ps1")
 ) -WindowStyle Hidden
 
+# 启动心跳看门狗：页面全部关闭约 1 分钟后自动停止 dev server
+Start-Process node -ArgumentList @(
+    (Join-Path $projectDir "watchdog.mjs"),
+    "3000",
+    (Join-Path $projectDir ".heartbeat"),
+    "60",
+    "10"
+) -WindowStyle Hidden
+
 # 轮询等待端口就绪（最多 90 秒）
 Write-Host "正在启动 dev server…" -ForegroundColor Yellow
 for ($i = 0; $i -lt 90; $i++) {
@@ -34,7 +43,7 @@ for ($i = 0; $i -lt 90; $i++) {
         Start-Process $url
         Write-Host "启动完成，已打开 $url" -ForegroundColor Green
         Write-Host "dev server 在后台静默运行，无窗口。" -ForegroundColor DarkGray
-        Write-Host "停止：双击桌面「停止考研工作台」，或运行 stop-dev.ps1" -ForegroundColor DarkGray
+        Write-Host "关闭全部页面约 1 分钟后将自动停止；也可双击桌面「停止考研工作台」。" -ForegroundColor DarkGray
         Write-Host "日志：kaoyan-workbench/logs/dev.log" -ForegroundColor DarkGray
         exit 0
     }
